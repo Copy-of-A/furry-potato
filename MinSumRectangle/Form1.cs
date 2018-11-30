@@ -14,7 +14,7 @@ namespace MinSumRectangle
     {
         int countRow; // кол-во строк
         int countCol; // кол-во столбцов
-        int[,] matr = new int[10, 10];
+        int[][] matr;
 
         public Form1()
         {
@@ -54,6 +54,11 @@ namespace MinSumRectangle
             dataGV_Matrix.RowCount = countRow;
             dataGV_Matrix.ColumnCount = countCol;
 
+
+            matr = new int[countRow][];
+            for (int i = 0; i < countRow; i++)
+                matr[i] = new int[countCol];
+
             Random rnd = new Random();
             dataGV_Result.Rows.Clear();
             for (int i = 0; i < countRow; i++)
@@ -61,12 +66,34 @@ namespace MinSumRectangle
                 for (int j = 0; j < countCol; j++)
                 {
                     int n = rnd.Next(-100,100);
-                    matr[i, j] = n;
+                    matr[i][j] = n;
                     dataGV_Matrix.Rows[i].Cells[j].Value = n;
                 }
             }
             dataGV_Matrix.AutoResizeColumns();
             btnSearch.Enabled = true;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchRectangle search = new SearchRectangle(matr);
+            search.MinSubMatrix();
+            matr = search.getNewMatrix();
+            countCol = search.N_col;
+            countRow = search.N_str;
+
+            dataGV_Result.RowCount = countRow;
+            dataGV_Result.ColumnCount = countCol;
+            for (int i = 0; i < countRow; i++)
+            {
+                for (int j = 0; j < countCol; j++)
+                {
+                    dataGV_Result.Rows[i].Cells[j].Value = matr[i][j];
+                }
+            }
+            dataGV_Result.AutoResizeColumns();
+
+            textBox.Text = search.MinSum.ToString();
         }
     }
 }
