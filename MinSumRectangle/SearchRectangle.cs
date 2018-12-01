@@ -40,14 +40,16 @@ namespace MinSumRectangle
 
             for (int i = 1; i < arr.Length; i++)
             {
-
-                lastSum += arr[i];
+                //суммируем элементы массива
+                lastSum += arr[i]; 
+                //если сумма получилась больше, чем текущий элемент, то в сумму запомним текущий элемент
                 if (lastSum > arr[i])
                 {
                     lastSum = arr[i];
                     lastSumStartIndex = i;
                 }
 
+                //если текущая сумма меньше минимума, переопределяем минимум и его границы
                 if (minSum > lastSum)
                 {
                     minSumStartIndex = lastSumStartIndex;
@@ -72,7 +74,7 @@ namespace MinSumRectangle
             int colCount = matrix[0].Length;
             int start = 0;
             int fin = 0;
-            int[] partialSum = new int[colCount];  // массив сумм подмассива
+            int[] partialSum = new int[colCount];  // текущий подмассив для вычисления минимальной суммы
 
             // Идем по всем строкам
             for (int rowStart = 0; rowStart < rowCount; rowStart++)
@@ -85,21 +87,21 @@ namespace MinSumRectangle
                 {
                     for (int i = 0; i < colCount; i++)
                     {
-                        partialSum[i] += matrix[rowEnd][i]; //!!!!!!!!!!
+                        partialSum[i] += matrix[rowEnd][i]; 
                     }
 
                     // ищем координаты столбцов, и считаем сумму
-                    int tempMaxSum = FindMinSubArray(partialSum, out start, out fin);
+                    int tempMinSum = FindMinSubArray(partialSum, out start, out fin);
 
-                    // если полученная сумма, больше максимума 
+                    // если полученная сумма, меньше глобального минимума 
                     // запоминаем сумму и координаты
-                    if (tempMaxSum < minSum)
+                    if (tempMinSum < minSum)
                     {
                         RowStart = rowStart;
                         RowEnd = rowEnd;
                         ColStart = start;
                         ColEnd = fin;
-                        minSum = tempMaxSum;
+                        minSum = tempMinSum;
                     }
                 }
             }

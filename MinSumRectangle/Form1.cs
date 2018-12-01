@@ -14,7 +14,7 @@ namespace MinSumRectangle
     {
         int countRow; // кол-во строк
         int countCol; // кол-во столбцов
-        int[][] matr;
+        int[][] matr; 
 
         public Form1()
         {
@@ -54,11 +54,12 @@ namespace MinSumRectangle
             dataGV_Matrix.RowCount = countRow;
             dataGV_Matrix.ColumnCount = countCol;
 
-
+            //создаём матрицу
             matr = new int[countRow][];
             for (int i = 0; i < countRow; i++)
                 matr[i] = new int[countCol];
 
+            //рандомно заполняем её элементами и добавляем их в гридвью
             Random rnd = new Random();
             dataGV_Result.Rows.Clear();
             for (int i = 0; i < countRow; i++)
@@ -78,10 +79,11 @@ namespace MinSumRectangle
         {
             SearchRectangle search = new SearchRectangle(matr);
             search.MinSubMatrix();
-            matr = search.getNewMatrix();
+            matr = search.getNewMatrix(); // получаем прямоугольник с минимальной суммой
             countCol = search.N_col;
             countRow = search.N_str;
 
+            //в результирующую гридвью отображаем получившуюся матрицу
             dataGV_Result.RowCount = countRow;
             dataGV_Result.ColumnCount = countCol;
             for (int i = 0; i < countRow; i++)
@@ -92,8 +94,8 @@ namespace MinSumRectangle
                 }
             }
             dataGV_Result.AutoResizeColumns();
-
-            textBox.Text = search.MinSum.ToString();
+            // вывод минимальной суммы
+            textBox.Text = search.MinSum.ToString(); 
         }
     }
 }
